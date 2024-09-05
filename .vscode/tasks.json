@@ -1,0 +1,70 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start docker containers",
+      "type": "docker-compose",
+      "dockerCompose": {
+        "up": {
+          "detached": true,
+          "build": true
+        },
+        "files": ["${workspaceFolder}/docker-compose.yml"]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": false
+      }
+    },
+    {
+      "label": "start server on port 8080",
+      "type": "shell",
+      "command": "npm",
+      "args": ["start", "--", "--PORT", "8080", "--APP_ID", "1"],
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "echo": true,
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "start server on port 8081",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "start",
+        "--",
+        "--PORT",
+        "8081",
+        "--APP_ID",
+        "2",
+        "--SYNC_SCHEMA",
+        "false"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "echo": true,
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "run two servers",
+      "dependsOn": ["start server on port 8080", "start server on port 8081"]
+    },
+    {
+      "label": "start",
+      "dependsOn": ["start docker containers", "run two servers"],
+      "dependsOrder": "sequence"
+    }
+  ]
+}

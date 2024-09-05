@@ -1,0 +1,19 @@
+version: '3.8'
+
+name: subscriber-concurrency
+
+services:
+  subscriber-concurrency-db:
+    image: postgres:16-alpine
+    restart: always
+    container_name: subscriber-concurrency-db
+    environment:
+      # By default POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - subscriber-concurrency-network
+
+networks:
+  subscriber-concurrency-network:
